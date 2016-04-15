@@ -7,18 +7,18 @@ public class Agent {
     public static final String UP = "up";
     public static final String DOWN = "down";
     
-    int width;
-    int height;
+    int width = 50;
+    int height = 50;
     //IMAGE
-    int positionX = 560;
-    int positionY = 250;
+    int positionX = 5;
+    int positionY = 5;
     
-    public Agent(int width, int height) {
-        this.height = height;
-        this.width = width;
+    public Agent(int positionX, int positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
-    
-    public void moveAgent(String way, int howFar) {
+
+    public void moveAgent(String way) {
         switch (way) {
             case UP:
                 positionY--;
