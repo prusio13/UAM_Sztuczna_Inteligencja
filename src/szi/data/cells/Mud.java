@@ -34,7 +34,10 @@ public class Mud implements Cell {
 
     @Override
     public boolean isCrossable() {
-        return true;
+        if (Weather.getType() == Weather.SUN) {
+            return true;
+        }
+        return false;
     }
 
     @Override

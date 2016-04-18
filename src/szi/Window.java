@@ -23,19 +23,21 @@ import javax.swing.JFrame;
 public class Window extends JFrame implements KeyListener{
 
     static Agent agent = new Agent(4, 4);
-    CellMap map;
+    public CellMap map;
+    public Cell[][] cells;
     static Timer timer = new Timer();
     private int sizeX;
     private int sizeY;
     static Window window = new Window();
     public Window() {
         super("Agent na Mapie");
+        agent.AddWindow(this);
         addKeyListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
         State state = new State(0.5,0.5,0.5,0.5,0.5,false);
-        Cell[][] cells = new Cell[][]{
+        cells = new Cell[][]{
                 new Cell[]{new Road(),(new Road()),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
                 new Cell[]{new Road(),(new Road()),new Mud(),new Road(),new Mud(),new Road(),new Mud(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
                 new Cell[]{new Road(),(new Mud()),new Mud(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
@@ -64,7 +66,6 @@ public class Window extends JFrame implements KeyListener{
         sizeX = cells.length*30;
         sizeY = cells[0].length*30;
         setSize(sizeX, sizeY);
-        //map = new CellMap(cells);
         map = new CellMap(cells);
     }
 
