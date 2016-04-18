@@ -110,19 +110,15 @@ public class Window extends JFrame implements KeyListener{
         switch(ke.getKeyCode()) {
             case 37:
                 agent.moveAgent(Agent.LEFT);
-                System.out.println("lewo agent");
                 break;
             case 38:
                 agent.moveAgent(Agent.UP);
-                System.out.println("gora agent");
                 break;
             case 39:
                 agent.moveAgent(Agent.RIGHT);
-                System.out.println("prawo agent");
                 break;
             case 40:
                 agent.moveAgent(Agent.DOWN);
-                System.out.println("dol agent");
                 break;
             case 32:
                 Weather.Change();
