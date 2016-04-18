@@ -2,6 +2,7 @@ package szi.data.cells;
 
 import szi.data.Cell;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -9,9 +10,16 @@ import java.awt.*;
  */
 public class Water implements Cell {
 
+    private String icon = "C:\\Users\\Guest\\Pictures\\szi\\water.png";
+
     @Override
     public void cross() {}
 
+
+    public ImageIcon getIcon() {
+        ImageIcon icon = new ImageIcon(this.icon);
+        return icon;
+    }
     @Override
     public Color getColor() {
         return new Color(0, 13, 181);

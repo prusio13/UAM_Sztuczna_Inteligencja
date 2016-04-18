@@ -1,6 +1,7 @@
 package szi.data.cells;
 
 import szi.data.Cell;
+import szi.data.Weather;
 
 import java.awt.*;
 
@@ -14,7 +15,11 @@ public class Mud implements Cell {
 
     @Override
     public Color getColor() {
-        return new Color(34, 21, 5);
+        if (Weather.getType() == Weather.SUN) {
+            return new Color(50,50,50);
+        } else {
+            return new Color(34, 21, 5);
+        }
     }
 
     @Override

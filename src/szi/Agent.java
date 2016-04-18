@@ -10,14 +10,14 @@ public class Agent extends TimerTask {
     public static final String UP = "up";
     public static final String DOWN = "down";
     
-    int width = 50;
-    int height = 50;
+    int width = 30;
+    int height = 30;
     //IMAGE
     int positionX;
     int positionY;
 
     public void run() {
-        Window.window.repaint();
+        //Window.window.repaint();
     }
 
     public Agent(int positionX, int positionY) {
@@ -26,18 +26,19 @@ public class Agent extends TimerTask {
     }
 
     public void moveAgent(String way) {
-        if (way.equals(UP)) {
+        if (way.equals(UP) && positionY > 1) {
             positionY--;
 
-        } else if (way.equals(DOWN)) {
+        } else if (way.equals(DOWN) && positionY < 13) {
             positionY++;
 
-        } else if (way.equals(LEFT)) {
+        } else if (way.equals(LEFT) && positionX > 0) {
             positionX--;
 
-        } else if(way.equals(RIGHT)) {
+        } else if(way.equals(RIGHT) && positionX < 23) {
             positionX++;
         }
+        repaintGraphic();
     }
     
     public int getWidth() {
@@ -54,5 +55,9 @@ public class Agent extends TimerTask {
     
     public int getY() {
         return this.positionY;
+    }
+
+    public void repaintGraphic() {
+        Window.window.repaint();
     }
 }
