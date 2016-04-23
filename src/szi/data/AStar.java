@@ -1,3 +1,5 @@
+//package szi.data;
+//
 //import java.util.*;
 //
 //public class AStar {

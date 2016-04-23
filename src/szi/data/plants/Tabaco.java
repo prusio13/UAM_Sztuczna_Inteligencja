@@ -20,5 +20,6 @@ public class Tabaco extends Plant {
         this.growthTime =  60;
         this.price = 10.;
         this.color = new Color(187, 79, 68);
+        this.name = "TABACO";
     }
 }

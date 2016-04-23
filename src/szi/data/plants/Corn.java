@@ -20,5 +20,6 @@ public class Corn extends Plant {
         this.growthTime =  20;
         this.price = 2.;
         this.color = new Color(161, 161, 59);
+        this.name = "CORN";
     }
 }

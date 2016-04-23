@@ -44,4 +44,9 @@ public class Water implements Cell {
     public void nextDay() {
 
     }
+
+    @Override
+    public String getName() {
+        return "WATER";
+    }
 }

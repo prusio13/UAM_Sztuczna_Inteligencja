@@ -36,4 +36,9 @@ public class Road implements Cell {
     public void nextDay() {
 
     }
+
+    @Override
+    public String getName() {
+        return "ROAD";
+    }
 }

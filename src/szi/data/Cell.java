@@ -12,5 +12,6 @@ public interface Cell {
     double getIncome();
     boolean isCrossable();
     void nextDay();
+    String getName();
 
 }

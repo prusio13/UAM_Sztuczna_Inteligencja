@@ -44,4 +44,13 @@ public class Mud implements Cell {
     public void nextDay() {
 
     }
+
+    @Override
+    public String getName() {
+        if (Weather.getType() == Weather.SUN) {
+            return "ROAD";
+        } else {
+            return "ROAD";
+        }
+    }
 }

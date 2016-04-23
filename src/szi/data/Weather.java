@@ -1,27 +1,39 @@
 package szi.data;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Guest
- * Date: 18.04.16
- * Time: 15:01
- * To change this template use File | Settings | File Templates.
- */
-public class Weather {
+import java.util.Random;
 
-    private static String type;
-    public static String RAIN = "rain";
-    public static String SUN = "sun";
+public class Weather{
 
-    public static void Change() {
+    public static final String RAIN = "rain";
+    public static final String SUN = "sun";
+    private static String type = RAIN;
+
+    private static String icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\" + RAIN + ".jpg";;
+
+    public static void change() {
         if (type == SUN) {
             type = RAIN;
         } else {
             type = SUN;
         }
+        icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\" + type + ".jpg";
     }
 
     public static String getType() {
         return type;
     }
+
+    public static String getIcon() {
+        return icon;
+    }
+
+    public static void tryChangeWeather() {
+        Random generator = new Random();
+        int random = 10 - generator.nextInt(10);
+        if (random > 5) {
+            change();
+        }
+        Time.counter = 0;
+    }
+
 }

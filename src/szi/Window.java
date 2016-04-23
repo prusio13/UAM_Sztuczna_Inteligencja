@@ -2,103 +2,96 @@ package szi;
 
 import szi.data.Cell;
 import szi.data.CellMap;
-import szi.data.State;
+import szi.data.Time;
 import szi.data.Weather;
-import szi.data.cells.Field;
-import szi.data.cells.Mud;
-import szi.data.cells.Road;
-import szi.data.cells.Water;
-import szi.data.plants.Beetroot;
-import szi.data.plants.Corn;
-import szi.data.plants.Tabaco;
-import java.awt.image.ImageObserver;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
-public class Window extends JFrame implements KeyListener{
+public class Window extends JFrame implements KeyListener {
 
-    static Agent agent = new Agent(4, 4);
+    //public static Agent agent = new Agent(3, 11);
+    public static Agent agent = new Agent(5, 8);
     public CellMap map;
     public Cell[][] cells;
     static Timer timer = new Timer();
     private int sizeX;
     private int sizeY;
     static Window window = new Window();
+    static Time time = new Time();
+
+
     public Window() {
-        super("Agent na Mapie");
-        agent.AddWindow(this);
+        super("Jestę Traktorę");
+        agent.addWindow(this);
+        Time.addWindow(this);
         addKeyListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setResizable(false);
-        State state = new State(0.5,0.5,0.5,0.5,0.5,false);
-        cells = new Cell[][]{
-                new Cell[]{new Road(),(new Road()),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Road()),new Mud(),new Road(),new Mud(),new Road(),new Mud(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Mud()),new Mud(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Mud()),new Mud(),new Mud(),new Mud(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Road()),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Road(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Road(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Road(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Road(),new Road(),new Road(),new Water(),new Water(),new Water(),new Water(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Water(),new Water(),new Water(),new Water(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Road(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Field(state,new Tabaco()),new Road(),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Field(state,new Beetroot()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road(),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()},
-                new Cell[]{new Road(),(new Road()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road(),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Field(state,new Corn()),new Road()}
-        };
-        sizeX = cells.length*30;
-        sizeY = cells[0].length*30;
-        setSize(sizeX, sizeY);
+        cells = Map.create();
+        sizeX = cells.length * 40;
+        sizeY = cells[0].length * 40;
+        setSize(sizeX + 100, sizeY);
         map = new CellMap(cells);
     }
 
     public static void main(String[] args) {
         timer.scheduleAtFixedRate(agent, 10, 10);
+        time.run();
     }
 
     @Override
     public void paint(Graphics g) {
-        //g.setColor(Color.GREEN);
-        //g.fillRect(0, 0, sizeX, sizeY);
-        /*
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, 0, 400, 300);
-        g.setColor(Color.YELLOW);
-        g.fillRect(0, 350, 400, 300);
-        g.setColor(Color.YELLOW);
-        g.fillRect(800, 0, 400, 300);
-        g.setColor(Color.YELLOW);
-        g.fillRect(800, 350, 400, 300);
-        //g.setColor(Color.YELLOW);
-        //g.fillRect(800, 0, 400, 300);*/
-        Cell[][] cells = map.getMap();
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[0].length; j++) {
-                g.setColor(cells[i][j].getColor());
-                g.fillRect(i*30, j*30, 30, 30);
+        try {
+            Cell[][] cells = map.getMap();
+            for (int i = 0; i < cells.length; i++) {
+                for (int j = 0; j < cells[0].length; j++) {
+                    if (cells[i][j].getName() == "MUD") {
+                        Image mud = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\mud.png").getImage();
+                        g.drawImage(mud, i * 40, j * 40, null);
+                    } else if (cells[i][j].getName() == "ROAD") {
+                        Image road = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\road.png").getImage();
+                        g.drawImage(road, i * 40, j * 40, null);
+                    } else if (cells[i][j].getName() == "TABACO") {
+                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\tabaco.png").getImage();
+                        g.drawImage(tabaco, i * 40, j * 40, null);
+                    } else if (cells[i][j].getName() == "CORN") {
+                        Image corn = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\corn.png").getImage();
+                        g.drawImage(corn, i * 40, j * 40, null);
+                    } else if (cells[i][j].getName() == "BEETROOT") {
+                        Image beetroot = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\beetroot.png").getImage();
+                        g.drawImage(beetroot, i * 40, j * 40, null);
+                    }
+                }
             }
+
+            Image water = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\water.png").getImage();
+            g.drawImage(water, 8 * 40, 5 * 40, null);
+
+            Image house = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\house.png").getImage();
+            g.drawImage(house, 0 * 40, 8 * 40, null);
+
+            Image hour = new ImageIcon(Time.getIcon()).getImage();
+            g.drawImage(hour, 24 * 40 + 5, 1 * 40, null);
+
+            Image weather = new ImageIcon(Weather.getIcon()).getImage();
+            g.drawImage(weather, 24 * 40 + 5, 4 * 40, null);
+
+            if (Weather.getType() == Weather.RAIN) {
+                Image mud = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\mud_6.png").getImage();
+                g.drawImage(mud, 2, 25, null);
+            }
+
+            Image tractor = new ImageIcon(Agent.getIcon()).getImage();
+            g.drawImage(tractor, agent.getX() * 40, agent.getY() * 40, null);
+        } catch (Exception e) {
+            System.out.println("Natrafiłem na problem: " + e.toString());
         }
-        //  Water water = new Water();
-        //g.drawImage(water.getIcon(), 30, 30, this)
-        g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(agent.getX()*30, agent.getY()*30, agent.getHeight(), agent.getHeight());
+
     }
 
     @Override
@@ -107,7 +100,7 @@ public class Window extends JFrame implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent ke) {
-        switch(ke.getKeyCode()) {
+        switch (ke.getKeyCode()) {
             case 37:
                 agent.moveAgent(Agent.LEFT);
                 break;
@@ -121,8 +114,8 @@ public class Window extends JFrame implements KeyListener{
                 agent.moveAgent(Agent.DOWN);
                 break;
             case 32:
-                Weather.Change();
-                agent.repaintGraphic();
+                System.out.println("CZAS: " + Time.getMonth() + " dzień " + Time.getDay() + ". godzina " + Time.getHour() + ":00    " + Time.dayOrNight());
+                Agent.repaintGraphic();
                 break;
         }
     }

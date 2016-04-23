@@ -96,4 +96,10 @@ public class Field implements Cell {
         daysPassed = 0;
         return income;
     }
+
+    @Override
+    public String getName() {
+        if (isPlanted()) return plant.getName();
+        else return "FIELD";
+    }
 }

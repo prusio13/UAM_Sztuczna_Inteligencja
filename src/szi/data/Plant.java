@@ -15,6 +15,7 @@ public class Plant {
     protected int growthTime;
     protected double price;
     protected Color color;
+    protected String name;
 
     public Plant(){}
 
@@ -39,5 +40,9 @@ public class Plant {
 
     public Color getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
 }

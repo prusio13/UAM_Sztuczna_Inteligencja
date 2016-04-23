@@ -20,5 +20,6 @@ public class Beetroot extends Plant {
         this.growthTime =  20;
         this.price = 5.;
         this.color = new Color(202, 8,0);
+        this.name = "BEETROOT";
     }
 }
