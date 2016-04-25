@@ -5,12 +5,9 @@ import szi.data.Cell;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by Fingal on 02.04.2016.
- */
-public class Water implements Cell {
+public class Rock implements Cell {
 
-    private String icon = "C:\\Users\\Guest\\Pictures\\szi\\water.png";
+    private String icon = "C:\\Users\\Guest\\Pictures\\szi\\rock.png";
 
     @Override
     public void cross() {}
@@ -22,7 +19,7 @@ public class Water implements Cell {
     }
     @Override
     public Color getColor() {
-        return new Color(0, 13, 181);
+        return new Color(142, 162, 181);
     }
 
     @Override
@@ -42,11 +39,10 @@ public class Water implements Cell {
 
     @Override
     public void nextDay() {
-
     }
 
     @Override
     public String getName() {
-        return "WATER";
+        return "ROCK";
     }
 }

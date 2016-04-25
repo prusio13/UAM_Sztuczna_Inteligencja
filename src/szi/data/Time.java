@@ -3,6 +3,7 @@ package szi.data;
 import szi.Agent;
 import szi.Window;
 
+import java.util.List;
 import java.util.TimerTask;
 
 public class Time extends TimerTask {
@@ -17,6 +18,7 @@ public class Time extends TimerTask {
 
     private int tabForeward[] = {2,2,2,2,1,4,4,4,4,1,2,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,1,1,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,4,1,2,2,2,2};
     private int tabBack[] =     {4,4,4,4,3,2,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,3,3,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,4,3,2,2,2,2,3,4,4,4,4};
+    private static List<String> tab;
     private int positionInTab = 0;
     private static Window timeWindow;
 
@@ -35,16 +37,20 @@ public class Time extends TimerTask {
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
-            moveAgent();
+            if (AStar.isRunning) {
+                moveAgent();
+            }
             try {
                 Thread.sleep(500);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
-            if (Weather.getType() == Weather.SUN) {
+            if (Weather.getType() == Weather.SUN && AStar.isRunning) {
                 moveAgent();
             }
-            //timeWindow.repaint();
+            if (!AStar.isRunning) {
+                timeWindow.repaint();
+            }
             counter++;
         }
     }
@@ -54,34 +60,35 @@ public class Time extends TimerTask {
     }
 
     private void moveAgent() {
-        int direction;
-        if (this.direction){
-            direction = tabForeward[positionInTab];
+        String direction;
+//        if (this.direction){
+//            direction = tabForeward[positionInTab];
+//        }
+//        else {
+//            direction = tabBack[positionInTab];
+//        }
+        direction = tab.get(positionInTab);
+        if (direction.equals(Agent.RIGHT)) {
+            timeWindow.agent.moveAgent(Agent.RIGHT);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.DOWN)) {
+            timeWindow.agent.moveAgent(Agent.DOWN);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.LEFT)) {
+            timeWindow.agent.moveAgent(Agent.LEFT);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.UP)) {
+            timeWindow.agent.moveAgent(Agent.UP);
+            positionInTab++;
+
         }
-        else {
-            direction = tabBack[positionInTab];
-        }
-        switch (direction) {
-            case 1:
-                timeWindow.agent.moveAgent(Agent.RIGHT);
-                positionInTab++;
-                break;
-            case 2:
-                timeWindow.agent.moveAgent(Agent.DOWN);
-                positionInTab++;
-                break;
-            case 3:
-                timeWindow.agent.moveAgent(Agent.LEFT);
-                positionInTab++;
-                break;
-            case 4:
-                timeWindow.agent.moveAgent(Agent.UP);
-                positionInTab++;
-                break;
-        }
-        if (positionInTab == tabForeward.length) {
+        if (positionInTab == tab.size()) {
             positionInTab = 0;
-            this.direction = !this.direction;
+            //this.direction = !this.direction;
+            AStar.runningChange();
         }
     }
 
@@ -188,6 +195,10 @@ public class Time extends TimerTask {
 
     public static String dayOrNight() {
         return dayOrNight;
+    }
+
+    public static void setStepsList(List<String> list) {
+        tab = list;
     }
 
 }

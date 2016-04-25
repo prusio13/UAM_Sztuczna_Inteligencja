@@ -1,9 +1,6 @@
 package szi;
 
-import szi.data.Cell;
-import szi.data.CellMap;
-import szi.data.Time;
-import szi.data.Weather;
+import szi.data.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +19,7 @@ public class Window extends JFrame implements KeyListener {
     private int sizeY;
     static Window window = new Window();
     static Time time = new Time();
+    private AStar aStar;
 
 
     public Window() {
@@ -37,6 +35,10 @@ public class Window extends JFrame implements KeyListener {
         sizeY = cells[0].length * 40;
         setSize(sizeX + 100, sizeY);
         map = new CellMap(cells);
+        aStar = new AStar(this, agent);
+        AStar.runningChange();
+        AStar.runAStar(agent.getX(), agent.getY(), 20, 13);
+        Time.setStepsList(AStar.stepsList);
     }
 
     public static void main(String[] args) {
@@ -65,6 +67,9 @@ public class Window extends JFrame implements KeyListener {
                     } else if (cells[i][j].getName() == "BEETROOT") {
                         Image beetroot = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\beetroot.png").getImage();
                         g.drawImage(beetroot, i * 40, j * 40, null);
+                    } else if (cells[i][j].getName() == "ROCK") {
+                        Image rock = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\rock.png").getImage();
+                        g.drawImage(rock, i * 40, j * 40, null);
                     }
                 }
             }
@@ -73,18 +78,13 @@ public class Window extends JFrame implements KeyListener {
             g.drawImage(water, 8 * 40, 5 * 40, null);
 
             Image house = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\house.png").getImage();
-            g.drawImage(house, 0 * 40, 8 * 40, null);
+            g.drawImage(house, 0, 0, null);
 
             Image hour = new ImageIcon(Time.getIcon()).getImage();
             g.drawImage(hour, 24 * 40 + 5, 1 * 40, null);
 
             Image weather = new ImageIcon(Weather.getIcon()).getImage();
             g.drawImage(weather, 24 * 40 + 5, 4 * 40, null);
-
-            if (Weather.getType() == Weather.RAIN) {
-                Image mud = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\mud_6.png").getImage();
-                g.drawImage(mud, 2, 25, null);
-            }
 
             Image tractor = new ImageIcon(Agent.getIcon()).getImage();
             g.drawImage(tractor, agent.getX() * 40, agent.getY() * 40, null);

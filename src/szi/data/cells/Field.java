@@ -65,7 +65,8 @@ public class Field implements Cell {
     }
     @Override
     public double getCrossingCost() {
-        return plant.getValue()*plant.getDamageValue();
+        return 10;
+        //return plant.getValue()*plant.getDamageValue();
     }
 
     public double getPlantVitality() {

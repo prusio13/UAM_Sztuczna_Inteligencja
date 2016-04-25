@@ -1,30 +1,33 @@
 package szi.data.cells;
 
 import szi.data.Cell;
-import szi.data.Weather;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by Fingal on 02.04.2016.
  */
-public class Mud implements Cell {
+public class House implements Cell {
+
+    private String icon = "C:\\Users\\Guest\\Pictures\\szi\\water.png";
 
     @Override
     public void cross() {}
 
+
+    public ImageIcon getIcon() {
+        ImageIcon icon = new ImageIcon(this.icon);
+        return icon;
+    }
     @Override
     public Color getColor() {
-        if (Weather.getType() == Weather.SUN) {
-            return new Color(50,50,50);
-        } else {
-            return new Color(34, 21, 5);
-        }
+        return new Color(181, 0, 5);
     }
 
     @Override
     public double getCrossingCost() {
-        return 10;
+        return 1000;
     }
 
     @Override
@@ -34,11 +37,7 @@ public class Mud implements Cell {
 
     @Override
     public boolean isCrossable() {
-        if (Weather.getType() == Weather.SUN) {
-            return true;
-        }
-        //return false;
-        return true;
+        return false;
     }
 
     @Override
@@ -48,10 +47,6 @@ public class Mud implements Cell {
 
     @Override
     public String getName() {
-        if (Weather.getType() == Weather.SUN) {
-            return "ROAD";
-        } else {
-            return "MUD";
-        }
+        return "HAUSE";
     }
 }
