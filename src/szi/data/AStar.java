@@ -1,7 +1,6 @@
 package szi.data;
 
 import szi.Agent;
-import szi.Map;
 import szi.Window;
 
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ public class AStar {
     private static int endPositionX;
     private static int endPositionY;
     private static int direction;
+    private static int rotation;
 
     private static Window window;
     private static Agent agent;
@@ -34,9 +34,9 @@ public class AStar {
         this.agent = agent;
     }
 
-    public static void runAStar (int startX, int startY, int endX, int endY) {
+    public static void runAStar(int startX, int startY, int rotation, int endX, int endY) {
         stepsList = new ArrayList<String>();
-        setStartPositions(startX, startY);
+        setStartPositions(startX, startY, rotation);
         setEndPositions(endX, endY);
         int wasX = startPositionX;
         int wasY = startPositionY;
@@ -53,7 +53,7 @@ public class AStar {
 
             wasX = currentPositionX;
             wasY = currentPositionY;
-            setStartPositions(startPositionX, startPositionY);
+            setStartPositions(startPositionX, startPositionY, rotation);
         }
 
     }
@@ -62,9 +62,10 @@ public class AStar {
         return window.cells[posX][posY].getCrossingCost();
     }
 
-    private static void setStartPositions(int startPosX, int startPosY) {
+    private static void setStartPositions(int startPosX, int startPosY, int startRotation) {
         startPositionX = startPosX;
         startPositionY = startPosY;
+        rotation = startRotation % 4;
     }
 
     private static void setEndPositions(int endPosX, int endPosY) {
@@ -83,11 +84,11 @@ public class AStar {
                 startPositionX = startPositionX + 1;
                 break;
             case UP:
-                nextStep = Agent.UP;
+                nextStep = Agent.FORWARD;
                 startPositionY = startPositionY - 1;
                 break;
             case DOWN:
-                nextStep = Agent.DOWN;
+                nextStep = Agent.BACKWARD;
                 startPositionY = startPositionY + 1;
                 break;
         }

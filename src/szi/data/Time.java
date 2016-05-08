@@ -72,16 +72,16 @@ public class Time extends TimerTask {
             timeWindow.agent.moveAgent(Agent.RIGHT);
             positionInTab++;
 
-        } else if (direction.equals(Agent.DOWN)) {
-            timeWindow.agent.moveAgent(Agent.DOWN);
+        } else if (direction.equals(Agent.BACKWARD)) {
+            timeWindow.agent.moveAgent(Agent.BACKWARD);
             positionInTab++;
 
         } else if (direction.equals(Agent.LEFT)) {
             timeWindow.agent.moveAgent(Agent.LEFT);
             positionInTab++;
 
-        } else if (direction.equals(Agent.UP)) {
-            timeWindow.agent.moveAgent(Agent.UP);
+        } else if (direction.equals(Agent.FORWARD)) {
+            timeWindow.agent.moveAgent(Agent.FORWARD);
             positionInTab++;
 
         }

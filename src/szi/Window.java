@@ -37,7 +37,7 @@ public class Window extends JFrame implements KeyListener {
         map = new CellMap(cells);
         aStar = new AStar(this, agent);
         AStar.runningChange();
-        AStar.runAStar(agent.getX(), agent.getY(), 20, 13);
+        AStar.runAStar(agent.getX(), agent.getY(), agent.rotation, 20, 13);
         Time.setStepsList(AStar.stepsList);
     }
 
@@ -105,13 +105,13 @@ public class Window extends JFrame implements KeyListener {
                 agent.moveAgent(Agent.LEFT);
                 break;
             case 38:
-                agent.moveAgent(Agent.UP);
+                agent.moveAgent(Agent.FORWARD);
                 break;
             case 39:
                 agent.moveAgent(Agent.RIGHT);
                 break;
             case 40:
-                agent.moveAgent(Agent.DOWN);
+                agent.moveAgent(Agent.BACKWARD);
                 break;
             case 32:
                 System.out.println("CZAS: " + Time.getMonth() + " dzień " + Time.getDay() + ". godzina " + Time.getHour() + ":00    " + Time.dayOrNight());

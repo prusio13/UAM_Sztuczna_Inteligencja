@@ -1,11 +1,11 @@
-package szi.data;
+/*package szi.data;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Created by Fingal on 02.04.2016.
- */
+ *//*
 public class QuadraticPropertyTest {
     @Test
     public void getValueTest(){
@@ -15,4 +15,4 @@ public class QuadraticPropertyTest {
         Assert.assertEquals(0.,a.getValue(0),0.00001);
         Assert.assertEquals(-30.,a.getValue(3),0.00001);
     }
-}
+}*/
