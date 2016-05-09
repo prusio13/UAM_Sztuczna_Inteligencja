@@ -30,10 +30,22 @@ public class Agent extends TimerTask {
     }
 
     public Agent(int positionX, int positionY) {
-        icon = System.getProperty("user.dir") + "\\src\\graphics\\tractor-" + NORTH + ".png";
+        this(positionX,positionY,0);
+    }
+
+    public void setRotation(int rotation) {
+        this.rotation = rotation;
+    }
+
+    public int getRotation() {
+        return rotation;
+    }
+
+    public Agent(int positionX, int positionY, int rotation) {
+        icon = System.getProperty("user.dir") + "/src/graphics/tractor-" + NORTH + ".png";
         this.positionX = positionX;
         this.positionY = positionY;
-        rotation = 0;
+        this.rotation = rotation;
     }
 
     public void addWindow(Window window) {
@@ -48,27 +60,27 @@ public class Agent extends TimerTask {
             rotation = (rotation + 1) % 4;
         }
         String absoluteDirection = LocalToAbsolute();
-        icon = System.getProperty("user.dir") + "\\src\\graphics\\tractor-" + absoluteDirection + ".png";
+        icon = System.getProperty("user.dir") + "/src/graphics/tractor-" + absoluteDirection + ".png";
         if (way.equals(FORWARD) || way.equals(BACKWARD)) {
             int i = way.equals(FORWARD) ? 1 : -1;
-            if (absoluteDirection.equals(NORTH) && positionY > 1) {
-                if (checkNextStep(NORTH)) {
-                    positionY--;
+            if (absoluteDirection.equals(Agent.NORTH) && positionY-i >= 0 && positionY-i<window.cells[0].length){
+                if (checkNextStep(positionX,positionY-i)) {
+                    positionY-=i;
                 }
 
-            } else if (absoluteDirection.equals(SOUTH) && positionY < 13) {
-                if (checkNextStep(SOUTH)) {
-                    positionY++;
+            } else if (absoluteDirection.equals(Agent.SOUTH) && positionY+i >= 0 && positionY+i<window.cells[0].length){
+                if (checkNextStep(positionX,positionY+i)) {
+                    positionY+=i;
                 }
 
-            } else if (absoluteDirection.equals(WEST) && positionX > 0) {
-                if (checkNextStep(WEST)) {
-                    positionX--;
+            } else if (absoluteDirection.equals(Agent.WEST) && positionX-i >= 0 && positionX-i<window.cells.length) {
+                if (checkNextStep(positionX-i,positionY)) {
+                    positionX-=i;
                 }
 
-            } else if (absoluteDirection.equals(EAST) && positionX < 23) {
-                if (checkNextStep(EAST)) {
-                    positionX++;
+            } else if (absoluteDirection.equals(Agent.EAST) && positionX-i >= 0 && positionX-i<window.cells.length) {
+                if (checkNextStep(positionX+i,positionY)) {
+                    positionX+=i;
                 }
             }
         }
@@ -100,31 +112,15 @@ public class Agent extends TimerTask {
         Window.window.repaint();
     }
 
-    public boolean checkNextStep(String direction) {
-        if (direction.equals(NORTH)) {
-            if (window.cells[positionX][positionY - 1].isCrossable()) {
-                return true;
-            }
-
-        } else if (direction.equals(SOUTH)) {
-            if (window.cells[positionX][positionY + 1].isCrossable()) {
-                return true;
-            }
-
-        } else if (direction.equals(WEST)) {
-            if (window.cells[positionX - 1][positionY].isCrossable()) {
-                return true;
-            }
-
-        } else if (direction.equals(EAST)) {
-            if (window.cells[positionX + 1][positionY].isCrossable()) {
-                return true;
-            }
-        }
-        return false;
+    public boolean checkNextStep(int x,int y) {
+        return window.cells[x][y].isCrossable();
     }
 
     public static String getIcon() {
         return icon;
+    }
+
+    public boolean equals(Agent agent){
+        return (this.getX()==agent.getX() && this.getY()==agent.getY() && this.getRotation()==agent.getRotation());
     }
 }

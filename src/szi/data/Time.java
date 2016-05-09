@@ -33,7 +33,7 @@ public class Time extends TimerTask {
             nextHour();
             checkDate();
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
@@ -41,7 +41,7 @@ public class Time extends TimerTask {
                 moveAgent();
             }
             try {
-                Thread.sleep(500);
+                Thread.sleep(200);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
@@ -86,9 +86,10 @@ public class Time extends TimerTask {
 
         }
         if (positionInTab == tab.size()) {
-            positionInTab = 0;
+            AStar.isRunning=false;
             //this.direction = !this.direction;
             AStar.runningChange();
+
         }
     }
 

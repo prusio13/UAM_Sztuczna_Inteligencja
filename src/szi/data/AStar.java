@@ -1,17 +1,20 @@
 package szi.data;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+import javafx.geometry.Pos;
 import szi.Agent;
 import szi.Window;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+import static java.lang.Math.abs;
 
 public class AStar {
 
-    private static final int RIGHT = 1;
-    private static final int DOWN = 2;
-    private static final int LEFT = 3;
-    private static final int UP = 4;
+    //private static final int RIGHT = 1;
+    //private static final int DOWN = 2;
+    //private static final int LEFT = 3;
+    //private static final int UP = 4;
 
     private static int currentPositionX;
     private static int currentPositionY;
@@ -35,7 +38,14 @@ public class AStar {
     }
 
     public static void runAStar(int startX, int startY, int rotation, int endX, int endY) {
-        stepsList = new ArrayList<String>();
+        stepsList = getStepsList(startX,startY,rotation,endX,endY);
+        for (String step: stepsList
+             ) {
+            System.out.println(step);
+        }
+        System.out.println("ready");
+        isRunning = true;
+        /*stepsList = new ArrayList<String>();
         setStartPositions(startX, startY, rotation);
         setEndPositions(endX, endY);
         int wasX = startPositionX;
@@ -54,7 +64,7 @@ public class AStar {
             wasX = currentPositionX;
             wasY = currentPositionY;
             setStartPositions(startPositionX, startPositionY, rotation);
-        }
+        }*/
 
     }
 
@@ -72,7 +82,7 @@ public class AStar {
         endPositionX = endPosX;
         endPositionY = endPosY;
     }
-
+/*
     private static void getDestinationString(int type) {
         switch(type) {
             case LEFT:
@@ -121,7 +131,7 @@ public class AStar {
             );
         }
     }
-
+*/
     /*
       Zgodnie z ruchem wskazówke zegara np. dla kierunki w lewo : first=dól, secound=lewo, thirth=góra
     */
@@ -142,7 +152,7 @@ public class AStar {
     }
 
     public static void runningChange() {
-        isRunning = !isRunning;
+        //isRunning = !isRunning;
     }
 
     private static int distance(int posX, int posY) {
@@ -160,5 +170,132 @@ public class AStar {
         }
         return X + Y;
     }
+    private static class Position{
+        public int x;
+        public int y;
+        public int rotation;
+        public double gValue;
+        public List<String> moves;
+        public Position(int x,int y, int rotation, double gValue){
+            this.x=x;
+            this.y=y;
+            this.rotation=rotation;
+            this.gValue=gValue;
+            this.moves = new ArrayList<>();
+        }
 
+        @Override
+        public boolean equals(Object obj) {
+            Position other = (Position)obj;
+            return (x==other.x && y==other.y && rotation==other.rotation);
+        }
+        @Override
+        public int hashCode() {
+            return x+y+rotation;
+        }
+        public void moveAgent(String way) {
+            if (way.equals(Agent.LEFT)) {
+                rotation = (rotation - 1 + 4) % 4;
+            }
+            if (way.equals(Agent.RIGHT)) {
+                rotation = (rotation + 1) % 4;
+            }
+            String absoluteDirection = LocalToAbsolute();
+            if (way.equals(Agent.FORWARD) || way.equals(Agent.BACKWARD)) {
+                int i = way.equals(Agent.FORWARD) ? 1 : -1;
+                if (absoluteDirection.equals(Agent.NORTH) && y-i >= 0 && y-i<window.cells[0].length) {
+                    if (checkNextStep(x,y-i)) {
+                        y-=i;
+                    }
+
+                } else if (absoluteDirection.equals(Agent.SOUTH) && y+i >=0 && y+i<window.cells[0].length ) {
+                    if (checkNextStep(x,y+i)) {
+                        y+=i;
+                    }
+
+                } else if (absoluteDirection.equals(Agent.WEST) && x-i >= 0 && x-i<window.cells.length) {
+                    if (checkNextStep(x-i,y)) {
+                        x-=i;
+                    }
+
+                } else if (absoluteDirection.equals(Agent.EAST) && x+i >= 0 && x+i<window.cells.length) {
+                    if (checkNextStep(x+i,y)) {
+                        x+=i;
+                    }
+                }
+            }
+        }
+        public boolean checkNextStep(int x,int y) {
+            return window.cells[x][y].isCrossable();
+        }
+        private String LocalToAbsolute() {
+            return new String[]{Agent.NORTH, Agent.EAST, Agent.SOUTH, Agent.WEST}[rotation];
+        }
+    }
+    private static double heuristicCost(Position position, int goalX, int goalY){
+        int roadCost=abs(position.x-goalX)+abs(position.y-goalY);
+        double rotationCost=1;
+        if (position.x!=goalX && (position.rotation==2 || position.rotation == 0)){
+            rotationCost=0;
+        }
+        if (position.y!=goalY && (position.rotation==1 || position.rotation == 3)){
+            rotationCost=0;
+        }
+        return roadCost+rotationCost;
+    }
+    private static Position newPosition(Position oldPosition,String direction) {
+        Position newPosition = new Position(oldPosition.x, oldPosition.y, oldPosition.rotation,1);
+        //newAgent.addWindow(window);
+        newPosition.moveAgent(direction);
+        //Position newPosition = new Position(newAgent.getX(),newAgent.getY(),newAgent.getRotation(),1);
+        if (direction==Agent.LEFT || direction==Agent.RIGHT) newPosition.gValue=0.5*window.cells[newPosition.x][newPosition.y].getCrossingCost();
+        newPosition.moves=new ArrayList<>(oldPosition.moves);
+        if(direction==Agent.BACKWARD) newPosition.gValue=2*window.cells[newPosition.x][newPosition.y].getCrossingCost();
+        if(direction==Agent.FORWARD) newPosition.gValue=window.cells[newPosition.x][newPosition.y].getCrossingCost();
+        newPosition.moves.add(direction);
+        return newPosition;
+    }
+    private static List<String> getStepsList(int posX,int posY,int rotation,int goalX,int goalY){
+        Set<Position> closedSet = new HashSet<>();
+        //Set<Position> openSet = new HashSet<>();
+        PriorityQueue<Position> openSet = new PriorityQueue<Position>(50, new Comparator<Position>() {
+            @Override
+            public int compare(Position o1, Position o2) {
+                if ((o1.gValue+ heuristicCost(o1,goalX,goalY))<(o2.gValue+ heuristicCost(o2,goalX,goalY))) {
+                    return -1;
+                }
+                if ((o1.gValue+ heuristicCost(o1,goalX,goalY))>(o2.gValue+ heuristicCost(o2,goalX,goalY))) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        //HashMap<Position,Integer> gValues = new HashMap<>();
+        openSet.add(new Position(posX,posY,rotation,0));
+        while (!openSet.isEmpty()){
+            /*for (Object i:openSet.toArray()
+                    ) {
+                Position i2=(Position)i;
+                System.out.println("new");
+                System.out.println(i2.gValue);
+                System.out.println(i2.gValue+heuristicCost(i2,goalX,goalY));
+            }*/
+            Position currPosition = openSet.poll();
+            //System.out.println("curr"+currPosition.gValue+(heuristicCost(currPosition,goalX,goalY)+currPosition.gValue));
+            if (currPosition.x==goalX && currPosition.y==goalY) return currPosition.moves;
+            closedSet.add(currPosition);
+            for (Position p: new Position[]{newPosition(currPosition,Agent.FORWARD),
+                                            newPosition(currPosition,Agent.BACKWARD),
+                                            newPosition(currPosition,Agent.LEFT),
+                                            newPosition(currPosition,Agent.RIGHT)}) {
+                if (closedSet.contains(p) || p.equals(currPosition)) {
+                    continue;
+                }
+                p.gValue=currPosition.gValue+p.gValue;
+                openSet.add(p);
+            }
+        }
+        //openSet.add();
+        return null;
+    }
 }

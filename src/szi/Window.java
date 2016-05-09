@@ -37,7 +37,7 @@ public class Window extends JFrame implements KeyListener {
         map = new CellMap(cells);
         aStar = new AStar(this, agent);
         AStar.runningChange();
-        AStar.runAStar(agent.getX(), agent.getY(), agent.rotation, 20, 13);
+        AStar.runAStar(agent.getX(), agent.getY(), agent.rotation, 20, 6);
         Time.setStepsList(AStar.stepsList);
     }
 
@@ -53,31 +53,31 @@ public class Window extends JFrame implements KeyListener {
             for (int i = 0; i < cells.length; i++) {
                 for (int j = 0; j < cells[0].length; j++) {
                     if (cells[i][j].getName() == "MUD") {
-                        Image mud = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\mud.png").getImage();
+                        Image mud = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/mud.png").getImage();
                         g.drawImage(mud, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "ROAD") {
-                        Image road = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\road.png").getImage();
+                        Image road = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/road.png").getImage();
                         g.drawImage(road, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "TABACO") {
-                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\tabaco.png").getImage();
+                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
                         g.drawImage(tabaco, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "CORN") {
-                        Image corn = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\corn.png").getImage();
+                        Image corn = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/corn.png").getImage();
                         g.drawImage(corn, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "BEETROOT") {
-                        Image beetroot = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\beetroot.png").getImage();
+                        Image beetroot = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/beetroot.png").getImage();
                         g.drawImage(beetroot, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "ROCK") {
-                        Image rock = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\rock.png").getImage();
+                        Image rock = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/rock.png").getImage();
                         g.drawImage(rock, i * 40, j * 40, null);
                     }
                 }
             }
 
-            Image water = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\water.png").getImage();
+            Image water = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/water.png").getImage();
             g.drawImage(water, 8 * 40, 5 * 40, null);
 
-            Image house = new ImageIcon(System.getProperty("user.dir") + "\\src\\graphics\\house.png").getImage();
+            Image house = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/house.png").getImage();
             g.drawImage(house, 0, 0, null);
 
             Image hour = new ImageIcon(Time.getIcon()).getImage();
@@ -88,10 +88,10 @@ public class Window extends JFrame implements KeyListener {
 
             Image tractor = new ImageIcon(Agent.getIcon()).getImage();
             g.drawImage(tractor, agent.getX() * 40, agent.getY() * 40, null);
-        } catch (Exception e) {
-            System.out.println("Natrafiłem na problem: " + e.toString());
         }
+        catch (Exception e){
 
+        }
     }
 
     @Override
