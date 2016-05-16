@@ -8,6 +8,8 @@ import szi.Window;
 import java.util.*;
 
 import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public class AStar {
 
@@ -232,8 +234,35 @@ public class AStar {
             return new String[]{Agent.NORTH, Agent.EAST, Agent.SOUTH, Agent.WEST}[rotation];
         }
     }
+    private static double h1(Position position,int goalX,int goalY){
+        int roadCost=0;
+        for (int i = min(position.x,goalX); i < max(position.x,goalX); i++) {
+            if(window.cells[i][position.y].isCrossable()) roadCost+=window.cells[i][position.y].getCrossingCost();
+            //else roadCost+=1;
+        }
+            for (int j = min(position.y,goalY); j < max(position.y,goalY); j++) {
+                if(window.cells[goalX][j].isCrossable()) roadCost+=window.cells[goalX][j].getCrossingCost();
+                //else roadCost+=1;
+            }
+        return roadCost;
+    }
+    private static double h2(Position position,int goalX,int goalY){
+        int roadCost=0;
+        for (int j = min(position.y,goalY); j < max(position.y,goalY); j++) {
+            if(window.cells[position.x][j].isCrossable()) roadCost+=window.cells[position.x][j].getCrossingCost();
+            //else roadCost+=1;
+        }
+        for (int i = min(position.x,goalX); i < max(position.x,goalX); i++) {
+            if(window.cells[i][goalY].isCrossable()) roadCost+=window.cells[i][goalY].getCrossingCost();
+            //else roadCost+=1;
+        }
+        return roadCost;
+    }
+
     private static double heuristicCost(Position position, int goalX, int goalY){
-        int roadCost=abs(position.x-goalX)+abs(position.y-goalY);
+        double roadCost =0;
+        roadCost=abs(position.x-goalX)+abs(position.y-goalY);
+        //roadCost=min(h1(position,goalX,goalY),h2(position,goalX,goalY));
         double rotationCost=1;
         if (position.x!=goalX && (position.rotation==2 || position.rotation == 0)){
             rotationCost=0;
