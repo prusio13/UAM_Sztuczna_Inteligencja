@@ -103,4 +103,9 @@ public class Field implements Cell {
         if (isPlanted()) return plant.getName();
         else return "FIELD";
     }
+    @Override
+    public String toString(){
+        if (isPlanted()) return plant.toString();
+        else return "";
+    }
 }

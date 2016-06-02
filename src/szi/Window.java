@@ -71,6 +71,10 @@ public class Window extends JFrame implements KeyListener {
                         Image rock = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/rock.png").getImage();
                         g.drawImage(rock, i * 40, j * 40, null);
                     }
+                    else{
+                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
+                        g.drawImage(tabaco, i * 40, j * 40, null);
+                    }
                 }
             }
 
@@ -114,9 +118,13 @@ public class Window extends JFrame implements KeyListener {
                 agent.moveAgent(Agent.BACKWARD);
                 break;
             case 32:
+                System.out.println(cells[agent.positionX][agent.positionY].toString());
+                System.out.println(cells[agent.positionX][agent.positionY].getName());
+                break;
+            /*case 32:
                 System.out.println("CZAS: " + Time.getMonth() + " dzień " + Time.getDay() + ". godzina " + Time.getHour() + ":00    " + Time.dayOrNight());
                 Agent.repaintGraphic();
-                break;
+                break;*/
         }
     }
 

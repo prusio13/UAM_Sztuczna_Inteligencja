@@ -16,8 +16,8 @@ public class Time extends TimerTask {
 
     private boolean direction = true;
 
-    private int tabForeward[] = {2,2,2,2,1,4,4,4,4,1,2,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,1,1,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,4,1,2,2,2,2};
-    private int tabBack[] =     {4,4,4,4,3,2,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,3,3,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,4,3,2,2,2,2,3,4,4,4,4};
+//    private int tabForeward[] = {2,2,2,2,1,4,4,4,4,1,2,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,1,1,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,4,1,2,2,2,2};
+//    private int tabBack[] =     {4,4,4,4,3,2,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,3,3,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,4,3,2,2,2,2,3,4,4,4,4};
     private static List<String> tab;
     private int positionInTab = 0;
     private static Window timeWindow;
@@ -37,7 +37,8 @@ public class Time extends TimerTask {
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
-            if (AStar.isRunning) {
+            //if (AStar.isRunning) {
+            if (false) {
                 moveAgent();
             }
             try {
@@ -46,7 +47,7 @@ public class Time extends TimerTask {
                 System.out.println(e.toString());
             }
             if (Weather.getType() == Weather.SUN && AStar.isRunning) {
-                moveAgent();
+                //moveAgent();
             }
             if (!AStar.isRunning) {
                 timeWindow.repaint();

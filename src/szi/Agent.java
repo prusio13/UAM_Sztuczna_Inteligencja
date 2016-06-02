@@ -4,6 +4,15 @@ import java.util.TimerTask;
 
 public class Agent extends TimerTask {
 
+    public class Position{
+        public int x;
+        public int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
     private Window window;
 
     public static final String WEST = "west";
@@ -87,7 +96,27 @@ public class Agent extends TimerTask {
         repaintGraphic();
 
     }
+    public Position forwardTile(){
+        int i = 1;
+        int x=positionX;
+        int y=positionY;
+        String absoluteDirection = LocalToAbsolute();
+        if (absoluteDirection.equals(Agent.NORTH) && positionY-i >= 0 && positionY-i<window.cells[0].length){
+                x-=i;
 
+
+        } else if (absoluteDirection.equals(Agent.SOUTH) && positionY+i >= 0 && positionY+i<window.cells[0].length){
+                y+=i;
+
+
+        } else if (absoluteDirection.equals(Agent.WEST) && positionX-i >= 0 && positionX-i<window.cells.length) {
+                x-=i;
+
+        } else if (absoluteDirection.equals(Agent.EAST) && positionX-i >= 0 && positionX-i<window.cells.length) {
+                y+=i;
+        }
+        return new Position(x,y);
+    }
     private String LocalToAbsolute() {
         return new String[]{NORTH, EAST, SOUTH, WEST}[rotation];
     }

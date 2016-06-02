@@ -1,0 +1,23 @@
+%
+% ARFF file 
+%
+@relation vegetables
+
+
+@attribute plant_height numeric
+@attribute crop_size numeric
+@attribute color {zielony, zolty, czerwony, brazowy, czarny}
+@attribute crop {owoce, bulwy,nasiona}
+@attribute name? {buraki, ziemniaki, gruszki, wisnie, truskawki, maliny, jagody, pszenica}
+
+@data
+35.90,	6.81,	zielony,	nasiona,	pszenica
+97.81,	1.19,	zolty,		nasiona,	pszenica
+42.66,	7.87,	czerwony,	bulwy,		buraki
+8.89,	2.17,	zolty,		bulwy,		ziemniaki
+74.87,	3.03,	zolty,		nasiona,	pszenica
+6.04,	6.50,	zolty,		bulwy,		ziemniaki
+24.19,	4.01,	czerwony,	owoce,		maliny
+25.73,	1.03,	brazowy,	bulwy,		ziemniaki
+39.88,	7.49,	zolty,		bulwy,		buraki
+28.07,	5.49,	czarny,		owoce,		maliny

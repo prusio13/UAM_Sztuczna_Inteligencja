@@ -6,7 +6,22 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resorces" type="java-resource" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="weka">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../programing/weka-3-8-0" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="file://$MODULE_DIR$/../programing/weka-3-8-0/doc" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../programing/weka-3-8-0" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/../programing/weka-3-8-0" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/../programing/weka-3-8-0" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>

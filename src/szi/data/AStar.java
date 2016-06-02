@@ -1,15 +1,10 @@
 package szi.data;
-
-import com.sun.org.apache.xpath.internal.SourceTree;
-import javafx.geometry.Pos;
 import szi.Agent;
 import szi.Window;
 
 import java.util.*;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
+import static java.lang.Math.*;
 
 public class AStar {
 
