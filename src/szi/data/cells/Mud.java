@@ -11,12 +11,13 @@ import java.awt.*;
 public class Mud implements Cell {
 
     @Override
-    public void cross() {}
+    public void cross() {
+    }
 
     @Override
     public Color getColor() {
         if (Weather.getType() == Weather.SUN) {
-            return new Color(50,50,50);
+            return new Color(50, 50, 50);
         } else {
             return new Color(34, 21, 5);
         }

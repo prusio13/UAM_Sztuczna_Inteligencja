@@ -10,11 +10,12 @@ import java.awt.*;
 public class Road implements Cell {
 
     @Override
-    public void cross() {}
+    public void cross() {
+    }
 
     @Override
     public Color getColor() {
-        return new Color(50,50,50);
+        return new Color(50, 50, 50);
     }
 
     @Override

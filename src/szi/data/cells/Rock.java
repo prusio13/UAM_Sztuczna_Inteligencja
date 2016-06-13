@@ -10,13 +10,15 @@ public class Rock implements Cell {
     private String icon = "C:\\Users\\Guest\\Pictures\\szi\\rock.png";
 
     @Override
-    public void cross() {}
+    public void cross() {
+    }
 
 
     public ImageIcon getIcon() {
         ImageIcon icon = new ImageIcon(this.icon);
         return icon;
     }
+
     @Override
     public Color getColor() {
         return new Color(142, 162, 181);

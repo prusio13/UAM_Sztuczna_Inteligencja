@@ -2,13 +2,17 @@ package szi.data;
 
 import java.util.Random;
 
-public class Weather{
+public class Weather {
 
     public static final String RAIN = "rain";
+
     public static final String SUN = "sun";
+
     private static String type = RAIN;
 
-    private static String icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\" + RAIN + ".jpg";;
+    private static String icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\" + RAIN + ".jpg";
+
+    ;
 
     public static void change() {
         if (type == SUN) {

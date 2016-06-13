@@ -6,134 +6,34 @@ import szi.Window;
 import java.util.List;
 import java.util.TimerTask;
 
+import static szi.data.AStar.runAStar2;
+
 public class Time extends TimerTask {
 
-    private static int hour = 0;
-    private static int day = 1;
-    private static int month = 1;
-    private static String dayOrNight;
     public static int counter = 0;
 
-    private boolean direction = true;
+    private static int hour = 0;
 
-//    private int tabForeward[] = {2,2,2,2,1,4,4,4,4,1,2,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,1,1,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,4,1,2,2,2,2};
+    private static int day = 1;
+
+    private static int month = 1;
+
+    private static String dayOrNight;
+
+    //    private int tabForeward[] = {2,2,2,2,1,4,4,4,4,1,2,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,1,1,2,2,2,1,4,4,4,1,2,2,2,1,4,4,4,4,1,2,2,2,2};
 //    private int tabBack[] =     {4,4,4,4,3,2,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,3,3,2,2,2,3,4,4,4,3,2,2,2,3,4,4,4,4,3,2,2,2,2,3,4,4,4,4};
     private static List<String> tab;
-    private int positionInTab = 0;
+
     private static Window timeWindow;
 
     private static String icon;
 
-    public void run() {
-        setIcon(0);
-        while (true) {
-            if (counter == 5) {
-                Weather.tryChangeWeather();
-            }
-            nextHour();
-            checkDate();
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
-            //if (AStar.isRunning) {
-            if (false) {
-                moveAgent();
-            }
-            try {
-                Thread.sleep(200);
-            } catch (Exception e) {
-                System.out.println(e.toString());
-            }
-            if (Weather.getType() == Weather.SUN && AStar.isRunning) {
-                //moveAgent();
-            }
-            if (!AStar.isRunning) {
-                timeWindow.repaint();
-            }
-            counter++;
-        }
-    }
+    private boolean direction = true;
+
+    private int positionInTab = 0;
 
     public static void addWindow(Window window) {
         timeWindow = window;
-    }
-
-    private void moveAgent() {
-        String direction;
-//        if (this.direction){
-//            direction = tabForeward[positionInTab];
-//        }
-//        else {
-//            direction = tabBack[positionInTab];
-//        }
-        direction = tab.get(positionInTab);
-        if (direction.equals(Agent.RIGHT)) {
-            timeWindow.agent.moveAgent(Agent.RIGHT);
-            positionInTab++;
-
-        } else if (direction.equals(Agent.BACKWARD)) {
-            timeWindow.agent.moveAgent(Agent.BACKWARD);
-            positionInTab++;
-
-        } else if (direction.equals(Agent.LEFT)) {
-            timeWindow.agent.moveAgent(Agent.LEFT);
-            positionInTab++;
-
-        } else if (direction.equals(Agent.FORWARD)) {
-            timeWindow.agent.moveAgent(Agent.FORWARD);
-            positionInTab++;
-
-        }
-        if (positionInTab == tab.size()) {
-            AStar.isRunning=false;
-            //this.direction = !this.direction;
-            AStar.runningChange();
-
-        }
-    }
-
-    private void nextHour() {
-        hour++;
-        if (hour > 5 && hour < 21) {
-            dayOrNight = "dzień";
-        }
-        else {
-            dayOrNight = "noc";
-        }
-    }
-
-    private void nextDay() {
-        hour = 0;
-        day++;
-        //Weather.change();
-        Agent.repaintGraphic();
-    }
-
-    private void nextMonth() {
-        hour = 0;
-        day = 1;
-        if (month < 12) {
-            month++;
-        } else {
-            month = 1;
-        }
-    }
-
-    private void checkDate() {
-        if (hour == 24) {
-            nextDay();
-        }
-        setIcon(hour);
-        if (day == 30 && month == 2) {
-            nextMonth();
-        } else if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
-            nextMonth();
-        } else if (day == 32) {
-            nextMonth();
-        }
-
     }
 
     public static int getDay() {
@@ -187,12 +87,12 @@ public class Time extends TimerTask {
         return name;
     }
 
-    private void setIcon(int hour) {
-        icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\time " + hour + ".png";
-    }
-
     public static String getIcon() {
         return icon;
+    }
+
+    private void setIcon(int hour) {
+        icon = System.getProperty("user.dir") + "\\src\\graphics\\Info\\time " + hour + ".png";
     }
 
     public static String dayOrNight() {
@@ -201,6 +101,121 @@ public class Time extends TimerTask {
 
     public static void setStepsList(List<String> list) {
         tab = list;
+    }
+
+    public void run() {
+        setIcon(0);
+        while (true) {
+            if (counter == 5) {
+                Weather.tryChangeWeather();
+            }
+            nextHour();
+            checkDate();
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+            //if (AStar.isRunning) {
+            if (false) {
+                moveAgent();
+            }
+            try {
+                Thread.sleep(200);
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+            if (Weather.getType() == Weather.SUN && AStar.isRunning) {
+                //moveAgent();
+            }
+            if (!AStar.isRunning) {
+                timeWindow.repaint();
+            }
+            counter++;
+            runAStar2();
+        }
+
+    }
+
+    private void moveAgent() {
+        String direction;
+//        if (this.direction){
+//            direction = tabForeward[positionInTab];
+//        }
+//        else {
+//            direction = tabBack[positionInTab];
+//        }
+        direction = tab.get(positionInTab);
+        if (direction.equals(Agent.RIGHT)) {
+            timeWindow.agent.moveAgent(Agent.RIGHT);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.BACKWARD)) {
+            timeWindow.agent.moveAgent(Agent.BACKWARD);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.LEFT)) {
+            timeWindow.agent.moveAgent(Agent.LEFT);
+            positionInTab++;
+
+        } else if (direction.equals(Agent.FORWARD)) {
+            timeWindow.agent.moveAgent(Agent.FORWARD);
+            positionInTab++;
+
+        }
+        if (positionInTab == tab.size()) {
+            AStar.isRunning = false;
+            //this.direction = !this.direction;
+            AStar.runningChange();
+
+        }
+    }
+
+    private void nextHour() {
+        hour++;
+        if (hour > 5 && hour < 21) {
+            dayOrNight = "dzień";
+        } else {
+            dayOrNight = "noc";
+        }
+    }
+
+    public void nextDayCells(CellMap map) {
+        map.nextDay();
+    }
+
+    public void nextDay() {
+        hour = 0;
+        day++;
+    }
+
+    private void nextMonth() {
+        hour = 0;
+        day = 1;
+        if (month < 12) {
+            month++;
+        } else {
+            month = 1;
+        }
+    }
+
+    public void updateDay() {
+
+    }
+
+    private void checkDate() {
+        if (hour == 24) {
+            nextDay();
+        }
+        setIcon(hour);
+        if (day == 30 && month == 2) {
+            nextMonth();
+        } else if (day == 31 && (month == 4 || month == 6 || month == 9 || month == 11)) {
+            nextMonth();
+        } else if (day == 32) {
+            nextMonth();
+        }
+
     }
 
 }

@@ -1,6 +1,10 @@
 package szi;
 
 import szi.data.*;
+import szi.data.cells.Field;
+import szi.decision.DecisionEvaluator;
+import szi.decision.PlantAllowed;
+import szi.decision.TractorAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +16,24 @@ public class Window extends JFrame implements KeyListener {
 
     //public static Agent agent = new Agent(3, 11);
     public static Agent agent = new Agent(5, 8);
-    public CellMap map;
-    public Cell[][] cells;
+
     static Timer timer = new Timer();
-    private int sizeX;
-    private int sizeY;
+
     static Window window = new Window();
+
     static Time time = new Time();
+
+    public CellMap map;
+
+    public Cell[][] cells;
+
+    private int sizeX;
+
+    private int sizeY;
+
     private AStar aStar;
+
+    private DecisionEvaluator decisionEvaluator = new DecisionEvaluator();
 
 
     public Window() {
@@ -44,6 +58,7 @@ public class Window extends JFrame implements KeyListener {
     public static void main(String[] args) {
         timer.scheduleAtFixedRate(agent, 10, 10);
         time.run();
+
     }
 
     @Override
@@ -56,23 +71,28 @@ public class Window extends JFrame implements KeyListener {
                         Image mud = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/mud.png").getImage();
                         g.drawImage(mud, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "ROAD") {
-                        Image road = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/road.png").getImage();
+                        Image road = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/road.png").getImage();
                         g.drawImage(road, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "TABACO") {
-                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
+                        Image tabaco = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
                         g.drawImage(tabaco, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "CORN") {
-                        Image corn = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/corn.png").getImage();
+                        Image corn = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/corn.png").getImage();
                         g.drawImage(corn, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "BEETROOT") {
-                        Image beetroot = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/beetroot.png").getImage();
+                        Image beetroot = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/beetroot.png").getImage();
                         g.drawImage(beetroot, i * 40, j * 40, null);
                     } else if (cells[i][j].getName() == "ROCK") {
-                        Image rock = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/rock.png").getImage();
+                        Image rock = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/rock.png").getImage();
                         g.drawImage(rock, i * 40, j * 40, null);
-                    }
-                    else{
-                        Image tabaco = new ImageIcon(System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
+                    } else {
+                        Image tabaco = new ImageIcon(
+                                System.getProperty("user.dir") + "/src/graphics/tabaco.png").getImage();
                         g.drawImage(tabaco, i * 40, j * 40, null);
                     }
                 }
@@ -92,8 +112,7 @@ public class Window extends JFrame implements KeyListener {
 
             Image tractor = new ImageIcon(Agent.getIcon()).getImage();
             g.drawImage(tractor, agent.getX() * 40, agent.getY() * 40, null);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -118,6 +137,7 @@ public class Window extends JFrame implements KeyListener {
                 agent.moveAgent(Agent.BACKWARD);
                 break;
             case 32:
+                chop(agent.positionX, agent.positionY);
                 System.out.println(cells[agent.positionX][agent.positionY].toString());
                 System.out.println(cells[agent.positionX][agent.positionY].getName());
                 break;
@@ -127,6 +147,77 @@ public class Window extends JFrame implements KeyListener {
                 break;*/
         }
     }
+
+    private void nextDayPlants() {
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                if (cell.getName() == "TABACO") {
+                    cell.nextDay();
+                } else if (cell.getName() == "CORN") {
+                    cell.nextDay();
+                } else if (cell.getName() == "BEETROOT") {
+                    cell.nextDay();
+                }
+            }
+        }
+    }
+
+    private void chop(int i, int j) {
+        nextDayPlants();
+        if (cells[i][j].getName() == "TABACO") {
+            int ii = agent.choppedYields.get("TABACO");
+            agent.choppedYields.put("TABACO", ++ii);
+        } else if (cells[i][j].getName() == "CORN") {
+            int ii = agent.choppedYields.get("CORN");
+            agent.choppedYields.put("CORN", ++ii);
+        } else if (cells[i][j].getName() == "BEETROOT") {
+            int ii = agent.choppedYields.get("BEETROOT");
+            agent.choppedYields.put("BEETROOT", ++ii);
+        }
+
+        Field field = (Field) cells[i][j];
+
+        System.out.println("Damage" + field.getPlant().getDamageValue() + "\n Vitality:" +
+                field.getPlantVitality());
+        PlantAllowed plantAllowed = decisionEvaluator.classifyAllowedDecision(field.getPlant().getDamageValue(),
+                field.getPlantVitality());
+
+
+        switch (plantAllowed) {
+            case DAMAGE_ALERT:
+                System.out.println("Za bardzo uszkodzona, żeby zebrać");
+                break;
+            case VITALITY_ALERT:
+                System.out.println("Za mała wiatlność, żeby zebrać");
+                break;
+            case OK:
+                checkTractorAction();
+                break;
+
+        }
+
+
+    }
+
+    private void checkTractorAction() {
+        TractorAction tractorAction = decisionEvaluator.classifyBackDecision(
+                agent.choppedYields.get("BEETROOT"),
+                agent.choppedYields.get("CORN"),
+                agent.choppedYields.get("TABACO"));
+
+
+        switch (tractorAction) {
+            case BACK:
+                System.out.println("Wracam oddać plony");
+                AStar.initialize(agent.getX(), agent.getY(), agent.getRotation());
+                agent.clearPlants();
+                break;
+            case CONTINUE:
+                System.out.println("Można kontynuować zbieranie");
+                break;
+        }
+    }
+
 
     @Override
     public void keyReleased(KeyEvent ke) {

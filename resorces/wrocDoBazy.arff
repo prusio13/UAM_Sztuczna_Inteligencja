@@ -1,0 +1,34 @@
+@relation action
+
+@attribute beetRootCount numeric
+@attribute cornCount numeric
+@attribute tabacoCount numeric
+@attribute action {BACK, CONTINUE}
+
+@data
+0, 1, 1, CONTINUE
+1, 0, 0, CONTINUE
+0, 1, 0, CONTINUE
+0, 0, 1, CONTINUE
+1, 1, 0, CONTINUE
+1, 1, 1, CONTINUE
+2, 2, 2, CONTINUE
+3, 3, 3, CONTINUE
+4, 4, 4, CONTINUE
+
+2, 3, 2, CONTINUE
+3, 2, 3, CONTINUE
+4, 4, 2, CONTINUE
+1, 4, 3, CONTINUE
+
+
+1, 10, 1, BACK
+1, 1, 10, BACK
+10, 1, 1, BACK
+5, 5, 1, BACK
+1, 5, 5, BACK
+5, 5, 5, BACK
+6, 6, 6, BACK
+6, 5, 7, BACK
+8, 6, 7, BACK
+4, 9, 4 BACK

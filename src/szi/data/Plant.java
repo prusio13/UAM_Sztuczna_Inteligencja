@@ -6,18 +6,29 @@ import java.awt.*;
  * Created by Fingal on 01.04.2016.
  */
 public class Plant {
+
     protected Property humidityProperty;
+
     protected Property temperatureProperty;
+
     protected Property soilQualityProperty;
+
     protected Property pestAcceptableProperty;
+
     protected double damageValue;
+
     protected double value;
+
     protected int growthTime;
+
     protected double price;
+
     protected Color color;
+
     protected String name;
 
-    public Plant(){}
+    public Plant() {
+    }
 
     public double getEffect(State state) {
         return humidityProperty.getValue(state.getHumidityState()) *
